@@ -14,16 +14,25 @@ endif
 
 CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
-CFLAGS = -g
+OBJDUMP = $(PREFIX)objdump
+CFLAGS = -g 
 LDFLAGS = 
 
-all:	htask.elf
+DIS := htask.dis
+ELF := htask.elf
 
-htask.elf: start.o
-	$(LD) $(LDFLAGS) -T htask.lds $< -o $@
+LDS := htask.lds
 
-start.o: start.S
-	$(CC) $(CFLAGS) -c $< -o $@
+obj-y := start.o startup.o
+
+all: 	$(DIS)
+
+$(DIS):	$(ELF)
+	$(OBJDUMP) -S $(ELF) > $(DIS)
+
+$(ELF): $(obj-y) $(LDS)
+	arm-none-eabi-gcc -g -c start.S -o start.o
+	$(LD) $(LDFLAGS) -T $(LDS) $(obj-y) -o $@
 
 clean:
-	rm -rf *.o htask.elf
+	rm -rf $(obj-y) *.elf *.dis

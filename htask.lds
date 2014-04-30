@@ -7,7 +7,7 @@ OUTPUT_ARCH(arm)
 ENTRY(_start)
 SECTIONS
 {
-	. = 0x00000000;
+	. = 0x30000000;
 
 	. = ALIGN(4);
 	.text :
@@ -23,7 +23,11 @@ SECTIONS
 	.data : { *(.data*) }
 
 	. = ALIGN(4);
+	.nobss : { *(.nobss*) }
+
+	. = 0x30200000;
+	. = ALIGN(4);
 	_bss_start = .;
 	.bss : { *(.bss) }
-	_end = .;
+	_bss_end = .;
 }
