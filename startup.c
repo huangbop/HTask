@@ -9,5 +9,11 @@ unsigned char _abt_stack[1024];
 unsigned char _und_stack[1024];
 unsigned char _svc_stack[1024];
 
+int _htask_startup()
+{
+  int i = 0;
 
+  i = i * i;
 
+  return 0;
+}

@@ -38,6 +38,13 @@ _fiq:				.word fiq
 
 	.balignl 16, 0xdeadbeef
 
+/* .bss */
+BSS_START:
+	.word	_bss_start
+
+BSS_END:
+	.word	_bss_end
+
 /* stack start */
 IRQ_STACK_START:
 	.word 	_irq_stack + 1024
@@ -80,7 +87,21 @@ reset:
 	/* setup stack */
 	bl	setup_stack
 
+	/* clear .bss */
+	mov	r0, #0
+	ldr	r1, BSS_START
+	ldr	r2, BSS_END
+bss_loop:
+	cmp	r1, r2
+	strlo	r0, [r1], #4
+	blo	bss_loop
+	
+	/* start kernel */
+	ldr 	pc, HTASK_STARTUP
 
+HTASK_STARTUP:
+	.word 	_htask_startup
+	
 /*
  * setup stack
  */
