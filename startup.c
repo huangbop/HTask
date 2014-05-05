@@ -6,8 +6,6 @@
 
 
 
-
-
 /* set stack */
 unsigned char _irq_stack[1024];
 unsigned char _fiq_stack[1024];
@@ -23,6 +21,9 @@ int _htask_startup()
 
 	/* init interrupt */
 	ht_init_interrupt();
+
+	/* init board */
+	ht_init_board();
 
 	return 0;
 }

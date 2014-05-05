@@ -1,8 +1,14 @@
 
 #include "htask.h"
 
+/* interrupt service table */
+struct ht_isr_desc isr_table[MAX_HANDLER];
 
-
+/* default handler */
+void ht_default_handler(int vector, void *param)
+{
+	
+}
 
 /* utilities */
 void ht_memset(void *buf, char val, int len)
@@ -15,6 +21,8 @@ void ht_memset(void *buf, char val, int len)
 
 void ht_init_interrupt()
 {
+	int i;
+
 	/* clear pending */
 	SRCPND = 0x0;
 	SUBSRCPND = 0x0;
@@ -28,4 +36,11 @@ void ht_init_interrupt()
 
 	/* clear int pending */
 	INTPND = ALL_MASKED;
+
+	/* init interrupt service table */
+	ht_memset(isr_table, 0, sizeof(isr_table));
+	for (i = 0; i < MAX_HANDLER; i++) {
+		isr_table[i].handler = ht_default_handler;
+	}
+
 }

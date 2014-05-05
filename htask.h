@@ -11,13 +11,18 @@
 #define ALL_MASKED            (0xffffffff)
 #define SUB_ALL_MASKED        (0x7ff)
 
+/* clock */
+#define LOCKTIME              (*(volatile unsigned *)0x4c000000)
+#define MPLLCON               (*(volatile unsigned *)0x4c000004)
+#define UPLLCON               (*(volatile unsigned *)0x4c000008)
+#define CLKDIVN               (*(volatile unsigned *)0x4c000014)
+
 /* interrupt service routine */
 #define MAX_HANDLER           32
 
 typedef void (*ht_isr_handler)(int vector, void *param);
 
-struct ht_isr_desc
-{
+struct ht_isr_desc {
 	ht_isr_handler handler;
 	void *param;
 };
@@ -27,10 +32,16 @@ struct ht_isr_desc
 extern void ht_memset(void *buf, char val, int len);
 
 /* cpu */
-extern void ht_cpu_enable_icache();
-extern void ht_cpu_enable_dcache();
+extern void ht_cpu_enable_icache(void);
+extern void ht_cpu_enable_dcache(void);
 
 /* interrupt */
-extern void ht_init_interrupt();
+extern void ht_init_interrupt(void);
+
+/* board */
+extern void ht_init_board(void);
+
+/* init board */
+extern void ht_init_clock(void);
 
 #endif /* _HTASK_H_ */
