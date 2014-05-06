@@ -1,6 +1,7 @@
 #ifndef _HTASK_H_
 #define _HTASK_H_
 
+#define HT_NULL               ((void *)0)
 
 #define SRCPND                (*(volatile unsigned *)0x4a000000)
 #define SUBSRCPND             (*(volatile unsigned *)0x4a000018)
@@ -16,6 +17,11 @@
 #define MPLLCON               (*(volatile unsigned *)0x4c000004)
 #define UPLLCON               (*(volatile unsigned *)0x4c000008)
 #define CLKDIVN               (*(volatile unsigned *)0x4c000014)
+
+/* uart */
+#define GPHCON                (*(volatile unsigned *)0x4c000070)
+#define GPHUP                 (*(volatile unsigned *)0x4c000078)
+#define U0BASE                (*(volatile unsigned *)0x50000000)
 
 /* interrupt service routine */
 #define MAX_HANDLER           32
@@ -43,5 +49,6 @@ extern void ht_init_board(void);
 
 /* init board */
 extern void ht_init_clock(void);
+extern void ht_init_uart(void);
 
 #endif /* _HTASK_H_ */
