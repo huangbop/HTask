@@ -16,6 +16,7 @@
 #define LOCKTIME              (*(volatile unsigned *)0x4c000000)
 #define MPLLCON               (*(volatile unsigned *)0x4c000004)
 #define UPLLCON               (*(volatile unsigned *)0x4c000008)
+#define CLKCON                (*(volatile unsigned *)0x4c00000c)
 #define CLKDIVN               (*(volatile unsigned *)0x4c000014)
 
 /* uart */
