@@ -29,6 +29,11 @@ struct serial_device {
 #define PCLK       1
 #define BPS        115200
 
+void ht_uart0_handler(int vector, void *param)
+{
+	
+}
+
 void ht_init_uart(void)
 {
 	int i;
@@ -45,7 +50,7 @@ void ht_init_uart(void)
 	/* disable flow control */
 	uart0.uart->umcon = 0x0;
 	/* baud rate */
-	uart0.uart->ubrdd = (int)(PCLK / (BPS * 16)) - 1;
+	uart0.uart->ubrdiv = (int)(PCLK / (BPS * 16)) - 1;
 	/* uart0/1 clock enable, pwmtimer enable */
 	CLKCON |= 0xd00;
 
@@ -54,7 +59,7 @@ void ht_init_uart(void)
 
 	/* install uart0 isr, rx interrupt */
 	INTSUBMASK &= ~0x1;
-	/*  */
-	
+	/* install uart0 interrupt */
+	ht_install_interrupt(28, ht_uart0_handler, HT_NULL);
 		
 }

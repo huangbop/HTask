@@ -44,6 +44,7 @@ extern void ht_cpu_enable_dcache(void);
 
 /* interrupt */
 extern void ht_init_interrupt(void);
+extern void ht_install_interrupt(int vector, ht_isr_handler handler, void *param);
 
 /* board */
 extern void ht_init_board(void);

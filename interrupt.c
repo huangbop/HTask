@@ -44,3 +44,9 @@ void ht_init_interrupt()
 	}
 
 }
+
+void ht_install_interrupt(int vector, ht_isr_handler handler, void *param)
+{
+	isr_table[vector].handler = handler;
+	isr_table[vector].param = param;
+}
