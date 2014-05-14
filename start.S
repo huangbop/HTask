@@ -30,6 +30,12 @@ _fiq:				.word fiq
 	 */
 _TEXT_BASE:
 	.word	_start
+
+_bss_start:
+	.word 	__bss_start
+
+_bss_end:	
+	.word 	__bss_end
 	
 reset:
 	/*
@@ -67,7 +73,27 @@ reset:
 	 * set up clock
 	 */
 	bl 	clock_init
-	
+
+	/*
+	 * clear bss
+	 */
+	ldr 	r0, _bss_start
+	ldr	r1, _bss_end
+	mov	r2, #0x00000000
+clear_loop:
+	str 	r2, [r0]
+	add 	r0, r0, #4
+	cmp 	r0, r1
+	ble	clear_loop
+
+	/*
+	 * startup
+	 */
+	ldr 	pc, _ht_startup
+
+_ht_startup:
+	.word 	ht_startup
+
 /*
  * except handlers
  */

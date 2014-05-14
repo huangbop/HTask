@@ -29,3 +29,8 @@ void clock_init(void)
 		"orr r0, r0, #0xc0000000\n"
 		"mcr p15, 0, r0, c1, c0, 0");
 }
+
+void ht_startup(void)
+{
+	static char *p = "abcdefg";
+}
