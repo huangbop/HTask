@@ -2,21 +2,8 @@
  * Copyright (C) 2014 Huang Bo
  */
 
-#define MODEMASK	0x1f
-#define USRMODE		0x10
-#define FIQMODE		0x11
-#define IRQMODE		0x12
-#define SVCMODE		0x13
-#define ABTMODE		0x17
-#define UNDMODE		0x1b
-#define SYSMODE		0x1f
-#define NOINT		0xc0	
 
-#define WTDCON		0x53000000
-
-#define INTMASK		0x4a000008
-#define INTSUBMASK	0x4a00001c
-
+	
 .globl _start
 _start:
 	b	reset
@@ -38,105 +25,49 @@ _fiq:				.word fiq
 
 	.balignl 16, 0xdeadbeef
 
-/* .bss */
-BSS_START:
-	.word	_bss_start
-
-BSS_END:
-	.word	_bss_end
-
-/* stack start */
-IRQ_STACK_START:
-	.word 	_irq_stack + 1024
-
-FIQ_STACK_START:
-	.word 	_fiq_stack + 1024
-	
-UND_STACK_START:
-	.word 	_und_stack + 1024
-
-ABT_STACK_START:
-	.word 	_abt_stack + 1024
-
-SVC_STACK_START:
-	.word 	_svc_stack + 1024	
-
-	
-
+	/*
+	 *
+	 */
+_TEXT_BASE:
+	.word	_start
 	
 reset:
-	/* change to supervisor mode */
+	/*
+	 * set the cpu to SVC32 mode
+	 */
 	mrs	r0, cpsr
-	bic	r0, r0, #MODEMASK
-	orr 	r0, r0, #SVCMODE
+	bic	r0, r0, #0x1f
+	orr 	r0, r0, #0xd3
 	msr 	cpsr, r0
 
-	/* disable watch dog */
-	ldr 	r0, =WTDCON
+	/*
+	 * turn off the watchdog
+	 */
+	ldr 	r0, =0x53000000
 	mov 	r1, #0x0
 	str	r1, [r0]
+
+	/*
+	 * mask all IRQs
+	 */
+	mov 	r1, #0xffffffff
+	ldr 	r0, =0x4a000008
+	str 	r1, [r0]
+	ldr 	r1, =0x7fff
+	ldr 	r0, =0x4a00001c
+	str 	r1, [r0]
+
+	/*
+	 * set up the stack
+	 */
+	ldr	r0, _TEXT_BASE
+	sub 	sp, r0, #1024 * 1024
+
+	/*
+	 * set up clock
+	 */
+	bl 	clock_init
 	
-	/* mask interrupt */
-	ldr 	r0, =INTMASK
-	ldr	r1, =0xffffffff
-	str	r1, [r0]
-	ldr 	r0, =INTSUBMASK
-	ldr	r1, =0x7fff
-	str	r1, [r0]
-
-	/* setup stack */
-	bl	setup_stack
-
-	/* clear .bss */
-	mov	r0, #0
-	ldr	r1, BSS_START
-	ldr	r2, BSS_END
-bss_loop:
-	cmp	r1, r2
-	strlo	r0, [r1], #4
-	blo	bss_loop
-	
-	/* start kernel */
-	ldr 	pc, HTASK_STARTUP
-
-HTASK_STARTUP:
-	.word 	_htask_startup
-	
-/*
- * setup stack
- */
-setup_stack:
-	mrs	r0, cpsr
-	bic	r0, r0, #MODEMASK
-
-	/* undefined mode */
-	orr	r1, r0, #UNDMODE|NOINT
-	msr	cpsr, r1
-	ldr	sp, UND_STACK_START
-
-	/* abort mode */
-	orr	r1, r0, #ABTMODE|NOINT
-	msr	cpsr, r1
-	ldr	sp, ABT_STACK_START
-
-	/* fiq mode */
-	orr	r1, r0, #FIQMODE|NOINT
-	msr	cpsr, r1
-	ldr	sp, FIQ_STACK_START
-
-	/* irq mode */
-	orr	r1, r0, #IRQMODE|NOINT
-	msr	cpsr, r1 
-	ldr 	sp, IRQ_STACK_START
-
-	/* svc mode */
-	orr	r1, r0, #SVCMODE|NOINT
-	msr	cpsr, r1
-	ldr	sp, SVC_STACK_START
-
-	mov	pc, lr
-
-
 /*
  * except handlers
  */

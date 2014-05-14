@@ -2,28 +2,30 @@
  * Copyright (C) 2014 Huang Bo
  */
 
-#include "htask.h"
+struct clock_power {
+	volatile unsigned locktime;
+	volatile unsigned mpllcon;
+	volatile unsigned upllcon;
+	volatile unsigned clkcon;
+	volatile unsigned clkslow;
+	volatile unsigned clkdivn;
+	volatile unsigned camdivn;
+};
 
 
-
-/* set stack */
-unsigned char _irq_stack[1024];
-unsigned char _fiq_stack[1024];
-unsigned char _abt_stack[1024];
-unsigned char _und_stack[1024];
-unsigned char _svc_stack[1024];
-
-int _htask_startup()
+void clock_init(void)
 {
-	/* enable cache */
-	ht_cpu_enable_icache();
-	ht_cpu_enable_dcache();
+	struct clock_power *const clk_pow = (struct clock_power *)0x4c000000;
 
-	/* init interrupt */
-	ht_init_interrupt();
-
-	/* init board */
-	ht_init_board();
-
-	return 0;
+	clk_pow->locktime = 0xffffffff;
+	
+	/* 12.0000MHz to 400.00MHz */
+	clk_pow->mpllcon = (0x5c << 12) | (1 << 4) | 1;
+	
+	/* FCLK:HCLK:PCLK = 1:2:4 */
+	clk_pow->clkdivn = 0x3;
+	__asm__ __volatile__ (
+		"mrc p15, 0, r0, c1, c0, 0\n"
+		"orr r0, r0, #0xc0000000\n"
+		"mcr p15, 0, r0, c1, c0, 0");
 }
