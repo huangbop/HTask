@@ -32,5 +32,5 @@ void clock_init(void)
 
 void ht_startup(void)
 {
-	static char *p = "abcdefg";
+	main_loop();
 }
