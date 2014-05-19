@@ -61,5 +61,8 @@ int board_init(void)
 {
 	struct gpio *gpio = (struct gpio *)0x56000000;
 
+	/* uart RXD[0] TXD[0] */
+	gpio->GPHCON |= 0xa0;
+
 	return 0;
 }

@@ -1,5 +1,10 @@
 
 
+void print_banner(void)
+{
+	serial_putc('a');
+}
+
 
 void main_loop(void)
 {
@@ -8,4 +13,6 @@ void main_loop(void)
 	interrupt_init();
 
 	serial_init();
+
+	print_banner();
 }
