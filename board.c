@@ -1,5 +1,5 @@
 
-struct GPIO {
+struct gpio {
 	volatile unsigned GPACON;
 	volatile unsigned GPADAT;
 	volatile unsigned res1[2];
@@ -59,7 +59,7 @@ struct GPIO {
 
 int board_init(void)
 {
-	
+	struct gpio *gpio = (struct gpio *)0x56000000;
 
 	return 0;
 }

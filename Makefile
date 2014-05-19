@@ -23,7 +23,7 @@ ELF := htask.elf
 
 LDS := htask.lds
 
-obj-y := start.o startup.o main.o
+obj-y := start.o startup.o main.o board.o interrupt.o serial.o
 
 all: 	$(DIS)
 
