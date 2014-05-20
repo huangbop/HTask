@@ -11,7 +11,7 @@ struct uart {
 	/* little endian */
 	volatile unsigned char utxh;
 	volatile unsigned char res0[3];
-	volatile unsigned urxh;
+	volatile unsigned char urxh;
 	volatile unsigned char res1[3];
 	
 	volatile unsigned ubrdiv;
