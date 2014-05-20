@@ -2,20 +2,12 @@
  * Copyright (C) 2014 Huang Bo
  */
 
-struct clock_power {
-	volatile unsigned locktime;
-	volatile unsigned mpllcon;
-	volatile unsigned upllcon;
-	volatile unsigned clkcon;
-	volatile unsigned clkslow;
-	volatile unsigned clkdivn;
-	volatile unsigned camdivn;
-};
-
+#include "htask.h"
+#include "serial.h"
 
 void clock_init(void)
 {
-	struct clock_power *const clk_pow = (struct clock_power *)0x4c000000;
+	struct clock_power *const clk_pow = get_base_clock_power();
 
 	clk_pow->locktime = 0xffffffff;
 	
@@ -32,5 +24,7 @@ void clock_init(void)
 
 void ht_startup(void)
 {
-	main_loop();
+	serial_init();
+
+	main();
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2014 Huang Bo
+ */
+#ifndef _HTASK_H_
+#define _HTASK_H_
+
+struct clock_power {
+	volatile unsigned locktime;
+	volatile unsigned mpllcon;
+	volatile unsigned upllcon;
+	volatile unsigned clkcon;
+	volatile unsigned clkslow;
+	volatile unsigned clkdivn;
+	volatile unsigned camdivn;
+};
 
 struct gpio {
 	volatile unsigned GPACON;
@@ -55,14 +70,35 @@ struct gpio {
 	volatile unsigned GPJUP;
 };
 
+struct uart {
+	volatile unsigned ulcon;
+	volatile unsigned ucon;
+	volatile unsigned ufcon;
+	volatile unsigned umcon;
+	volatile unsigned utrstat;
+	volatile unsigned uerstat;
+	volatile unsigned ufstat;
+	volatile unsigned umstat;
+	/* little endian */
+	volatile unsigned char utxh;
+	volatile unsigned char res0[3];
+	volatile unsigned char urxh;
+	volatile unsigned char res1[3];
+	
+	volatile unsigned ubrdiv;
+};
 
 
-int board_init(void)
-{
-	struct gpio *gpio = (struct gpio *)0x56000000;
-
-	/* uart RXD[0] TXD[0] */
-	gpio->GPHCON |= 0xa0;
-
-	return 0;
+static inline struct clock_power *get_base_clock_power(void) {
+	return (struct clock_power *)0x4c000000;
 }
+
+static inline struct gpio *get_base_gpio(void) {
+	return (struct gpio *)0x56000000;
+}
+
+static inline struct uart *get_base_uart(void) {
+	return (struct uart *)0x50000000;
+}
+
+#endif /* _HTASK_H_ */
