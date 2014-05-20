@@ -6,6 +6,9 @@
 
 int serial_init(void);
 
+void serial_putc(const char c);
+
+void serial_puts(const char *s);
 
 #endif /* _SERIAL_H_ */
 
