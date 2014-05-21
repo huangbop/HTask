@@ -9,11 +9,11 @@ int serial_init(void)
 
 	gpio->GPHCON |= 0xa0;
 
-	uart->ubrdiv = 27;
+	/* Tx/Rx interrupt mode */
+	uart->ucon = 0x5;
+	/* baudrate & flow control setting */
+	uart->ubrdiv = 26;
 	uart->ulcon = 0x3;
-
-	uart->ufcon = 0x7;
-	uart->ucon = 0x245;
 
 	return 0;
 }
@@ -25,6 +25,9 @@ void serial_putc(const char c)
 	while (!(uart->utrstat & 0x2));
 
 	uart->utxh = c;
+
+	if (c == '\n')
+		serial_putc('\r');
 }
 
 void serial_puts(const char *s)

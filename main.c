@@ -4,5 +4,5 @@
 
 void main(void)
 {
-	serial_puts("777777");
+	serial_puts("abcdefg\n");
 }
