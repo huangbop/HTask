@@ -15,9 +15,11 @@ endif
 CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
 OBJDUMP = $(PREFIX)objdump
+OBJCOPY = $(PREFIX)objcopy
 CFLAGS = -g 
 LDFLAGS = 
 
+BIN := htask.bin
 DIS := htask.dis
 ELF := htask.elf
 
@@ -29,6 +31,7 @@ all: 	$(DIS)
 
 $(DIS):	$(ELF)
 	$(OBJDUMP) -S $(ELF) > $(DIS)
+	$(OBJCOPY) -S -O binary $(ELF) $(BIN)
 
 $(ELF): $(obj-y) $(LDS)
 	arm-none-eabi-gcc -g -c start.S -o start.o

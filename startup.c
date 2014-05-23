@@ -26,5 +26,7 @@ void ht_startup(void)
 {
 	serial_init();
 
-	main();
+	for (;;) {
+		main_loop();
+	}
 }

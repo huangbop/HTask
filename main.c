@@ -2,7 +2,10 @@
 #include "serial.h"
 
 
-void main(void)
+void main_loop(void)
 {
-	serial_puts("abcdefg\n");
+	char c;
+	
+	c = serial_getc();
+	serial_putc(c);
 }

@@ -10,5 +10,7 @@ void serial_putc(const char c);
 
 void serial_puts(const char *s);
 
+char serial_getc(void);
+
 #endif /* _SERIAL_H_ */
 

@@ -35,3 +35,12 @@ void serial_puts(const char *s)
 	while (*s)
 		serial_putc(*s++);
 }
+
+char serial_getc(void)
+{
+	struct uart *uart = get_base_uart();
+
+	while (!(uart->utrstat & 0x1));
+
+	return uart->urxh & 0xff;
+}
