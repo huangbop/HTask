@@ -8,6 +8,8 @@ ENTRY(_start)
 SECTIONS
 {
 	. = 0x33f80000;
+
+	TEXT_BASE = .;
 	
 	. = ALIGN(4);
 	.text :

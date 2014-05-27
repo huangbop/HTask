@@ -29,7 +29,7 @@ _fiq:				.word fiq
 	 *
 	 */
 _TEXT_BASE:
-	.word	_start
+	.word	TEXT_BASE
 
 _bss_start:
 	.word 	__bss_start
@@ -64,8 +64,19 @@ reset:
 	str 	r1, [r0]
 
 	/*
+	 * move code to ram
+	 */
+	ldr	r0, =_start
+	ldr 	r1, _TEXT_BASE
+	cmp 	r0, r1
+	blne	code2ram
+
+	ldr	pc, =setup_stack
+
+	/*
 	 * set up the stack
 	 */
+setup_stack:	
 	ldr	r0, _TEXT_BASE
 	sub 	sp, r0, #1024 * 1024
 
@@ -93,6 +104,30 @@ clear_loop:
 
 _ht_startup:
 	.word 	ht_startup
+
+
+code2ram:
+	/* mem_setup: */	
+	mov	r1, #0x48000000
+	adrl	r2, mem_cfg_val
+	add	r3, r1, #52
+1:
+	ldr	r4, [r2], #4
+	str	r4, [r1], #4
+	cmp	r1, r3
+	bne	1b
+
+	/* code2ram: */
+	ldr	r1, =_start
+	ldr	r2, _TEXT_BASE
+	add	r3, r1, #4*1024
+1:	
+	ldr 	r4, [r1], #4
+	str	r4, [r2], #4
+	cmp	r1, r3
+	bne	1b
+
+	mov 	pc, lr
 
 /*
  * except handlers
@@ -124,3 +159,19 @@ irq:
 	.align 5
 fiq:
 	b fiq
+
+	.align 5
+mem_cfg_val:
+    .long   0x22011110      @ BWSCON
+    .long   0x00000700      @ BANKCON0
+    .long   0x00000700      @ BANKCON1
+    .long   0x00000700      @ BANKCON2
+    .long   0x00000700      @ BANKCON3  
+    .long   0x00000700      @ BANKCON4
+    .long   0x00000700      @ BANKCON5
+    .long   0x00018005      @ BANKCON6
+    .long   0x00018005      @ BANKCON7
+    .long   0x008C07A3      @ REFRESH
+    .long   0x000000B1      @ BANKSIZE
+    .long   0x00000030      @ MRSRB6
+    .long   0x00000030      @ MRSRB7
