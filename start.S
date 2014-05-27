@@ -66,7 +66,7 @@ reset:
 	/*
 	 * move code to ram
 	 */
-	ldr	r0, =_start
+	adr	r0, _start
 	ldr 	r1, _TEXT_BASE
 	cmp 	r0, r1
 	blne	code2ram
@@ -118,7 +118,7 @@ code2ram:
 	bne	1b
 
 	/* code2ram: */
-	ldr	r1, =_start
+	adr	r1, _start
 	ldr	r2, _TEXT_BASE
 	add	r3, r1, #4*1024
 1:	
