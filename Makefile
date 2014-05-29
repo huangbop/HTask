@@ -25,7 +25,7 @@ ELF := htask.elf
 
 LDS := htask.lds
 
-obj-y := start.o startup.o main.o serial.o
+obj-y := start.o startup.o main.o serial.o lib.o
 
 all: 	$(DIS)
 
@@ -35,7 +35,7 @@ $(DIS):	$(ELF)
 
 $(ELF): $(obj-y) $(LDS)
 	arm-none-eabi-gcc -g -c start.S -o start.o
-	$(LD) $(LDFLAGS) -T $(LDS) $(obj-y) -o $@
+	$(LD) $(LDFLAGS)   -T $(LDS) $(obj-y) -o $@
 
 clean:
 	rm -rf $(obj-y) *.elf *.dis
