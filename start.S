@@ -64,19 +64,16 @@ reset:
 	str 	r1, [r0]
 
 	/*
-	 * move code to ram
+	 * init ram
 	 */
 	adr	r0, _start
 	ldr 	r1, _TEXT_BASE
 	cmp 	r0, r1
-	blne	code2ram
-
-	ldr	pc, =setup_stack
+	blne	ram_init
 
 	/*
 	 * set up the stack
 	 */
-setup_stack:	
 	ldr	r0, _TEXT_BASE
 	sub 	sp, r0, #1024 * 1024
 
@@ -86,8 +83,16 @@ setup_stack:
 	bl 	clock_init
 
 	/*
+	 * copy2ram
+	 */
+	bl 	copy2ram
+
+	ldr	pc, =clear_bss
+
+	/*
 	 * clear bss
 	 */
+clear_bss:	
 	ldr 	r0, _bss_start
 	ldr	r1, _bss_end
 	mov	r2, #0x00000000
@@ -106,7 +111,7 @@ _ht_startup:
 	.word 	ht_startup
 
 
-code2ram:
+ram_init:
 	/* mem_setup: */	
 	mov	r1, #0x48000000
 	adrl	r2, mem_cfg_val
@@ -117,6 +122,10 @@ code2ram:
 	cmp	r1, r3
 	bne	1b
 
+	mov	pc, lr
+
+
+copy2ram:	
 	/* code2ram: */
 	adr	r1, _start
 	ldr	r2, _TEXT_BASE
