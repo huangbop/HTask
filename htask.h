@@ -88,17 +88,44 @@ struct uart {
 	volatile unsigned ubrdiv;
 };
 
+struct nand {
+	volatile unsigned NFCONF;
+	volatile unsigned NFCONT;
+	volatile unsigned NFCMD;
+	volatile unsigned NFADDR;
+	volatile unsigned NFDATA;
+	volatile unsigned NFMECCD0;
+	volatile unsigned NFMECCD1;
+	volatile unsigned NFSECCD;
+	volatile unsigned NFSTAT;
+	volatile unsigned NFESTAT0;
+	volatile unsigned NFESTAT1;
+	volatile unsigned NFMECC0;
+	volatile unsigned NFMECC1;
+	volatile unsigned NFSECC;
+	volatile unsigned NFSBLK;
+	volatile unsigned NFEBLK;
+};
 
-static inline struct clock_power *get_base_clock_power(void) {
+
+static inline struct clock_power *get_base_clock_power(void)
+{
 	return (struct clock_power *)0x4c000000;
 }
 
-static inline struct gpio *get_base_gpio(void) {
+static inline struct gpio *get_base_gpio(void)
+{
 	return (struct gpio *)0x56000000;
 }
 
-static inline struct uart *get_base_uart(void) {
+static inline struct uart *get_base_uart(void)
+{
 	return (struct uart *)0x50000000;
+}
+
+static inline struct nand *get_base_nand(void)
+{
+	return (struct nand *)0x4e000000;
 }
 
 #endif /* _HTASK_H_ */

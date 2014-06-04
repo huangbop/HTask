@@ -23,6 +23,12 @@ void clock_init(void)
 		"mcr p15, 0, r0, c1, c0, 0");
 }
 
+void copy2ram(unsigned char *s, unsigned char *d, int len)
+{
+	while (len--)
+		*d++ = *s++;
+}
+
 void ht_startup(void)
 {
 	serial_init();
