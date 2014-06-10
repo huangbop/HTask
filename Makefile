@@ -16,8 +16,8 @@ CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
 OBJDUMP = $(PREFIX)objdump
 OBJCOPY = $(PREFIX)objcopy
-CFLAGS = -g 
-LDFLAGS = 
+CFLAGS = -g -DTEXT_BASE=0x33f80000
+LDFLAGS = -Ttext 0x33f80000
 
 BIN := htask.bin
 DIS := htask.dis
@@ -34,8 +34,8 @@ $(DIS):	$(ELF)
 	$(OBJCOPY) -S -O binary $(ELF) $(BIN)
 
 $(ELF): $(obj-y) $(LDS)
-	arm-none-eabi-gcc -g -c start.S -o start.o
-	$(LD) $(LDFLAGS)   -T $(LDS) $(obj-y) -o $@
+	arm-none-eabi-gcc -g -DTEXT_BASE=0x33f80000 -c start.S -o start.o
+	$(LD) -T $(LDS) $(LDFLAGS) $(obj-y) -o $@
 
 clean:
 	rm -rf $(obj-y) *.elf *.dis

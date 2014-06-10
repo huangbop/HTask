@@ -87,10 +87,9 @@ reset:
 	 */
 	adr	r0, _start
 	ldr	r1, _TEXT_BASE
-	mov	r2, #4096
+	ldr 	r2, _bss_start
+	sub	r2, r2, r1
 	bl 	copy2ram
-
-	ldr	pc, =clear_bss
 
 	/*
 	 * clear bss
@@ -126,23 +125,6 @@ ram_init:
 	bne	1b
 
 	mov	pc, lr
-
-
-/*	
-copy2ram:	
-	 code2ram: 
-	adr	r1, _start
-	ldr	r2, _TEXT_BASE
-	add	r3, r1, #4*1024
-1:	
-	ldr 	r4, [r1], #4
-	str	r4, [r2], #4
-	cmp	r1, r3
-	bne	1b
-
-	mov 	pc, lr
-*/
-
 
 /*
  * except handlers
