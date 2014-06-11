@@ -104,6 +104,7 @@ clear_loop:
 	cmp 	r0, r1
 	ble	clear_loop
 
+
 	/*
 	 * startup
 	 */

@@ -13,7 +13,7 @@ SECTIONS
 	.text :
 	{
 		start.o (.text*)
-		startup.o (.text*)
+		boot_init.o (.text*)
 		*(.text*)
 	}
 
