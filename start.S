@@ -2,8 +2,6 @@
  * Copyright (C) 2014 Huang Bo
  */
 
-
-	
 .globl _start
 _start:
 	b	reset
@@ -89,7 +87,8 @@ reset:
 	ldr	r1, _TEXT_BASE
 	ldr 	r2, _bss_start
 	sub	r2, r2, r1
-	bl 	copy2ram
+	cmp	r0, r1
+	blne 	copy2ram
 
 	/*
 	 * clear bss
@@ -104,7 +103,6 @@ clear_loop:
 	cmp 	r0, r1
 	ble	clear_loop
 
-
 	/*
 	 * startup
 	 */
@@ -112,7 +110,6 @@ clear_loop:
 
 _ht_startup:
 	.word 	ht_startup
-
 
 ram_init:
 	/* mem_setup: */	
