@@ -1,8 +1,5 @@
-/*
- * Copyright (C) 2014 Huang Bo
- */
-#ifndef _HTASK_H_
-#define _HTASK_H_
+#ifndef _S3C2440_H_
+#define _S3C2440_H_
 
 struct clock_power {
 	volatile unsigned locktime;
@@ -110,11 +107,10 @@ struct nand {
 
 #define clock (*(struct clock_power *)0x4c000000)
 
-#define gpip  (*(struct gpio *)0x56000000)
+#define gpio  (*(struct gpio *)0x56000000)
 
 #define uart  (*(struct uart *)0x50000000)
 
 #define nand  (*(struct nand *)0x4e000000)
 
-
-#endif /* _HTASK_H_ */
+#endif /* _S3C2440_H_ */

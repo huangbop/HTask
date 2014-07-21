@@ -17,8 +17,7 @@ LIBS	:= cpu/s3c2440/libs3c2440.a bsp/jz2440/libjz2440.a src/libsrc.a
 all:	htask.elf
 
 htask.elf: 	$(LIBS)
-	$(LD) $(LDFLAGS) --start-group $(LIBS) --end-group \
-			-Map htask.map -o htask.elf
+	$(LD) $(LDFLAGS) --start-group $(LIBS) --end-group -Map htask.map -o htask.elf
 
 $(LIBS):
 	$(MAKE) -C $(dir $@)

@@ -1,33 +1,28 @@
 /*
  * Copyright (C) 2014 Huang Bo
  */
-#include "htask.h"
 
-
+#include "s3c2440.h"
 
 void nand_select_chip(void)
 {
 	int i;
-	struct nand *nand = get_base_nand();
 
-	nand->NFCONT &= ~(1<<1);
+	nand.NFCONT &= ~(1<<1);
 	for (i = 0; i < 10; i++);
 }
 
 void nand_write_cmd(unsigned char cmd)
 {
-	struct nand *nand = get_base_nand();
-
-	volatile unsigned char *p = (volatile unsigned char *)&nand->NFCMD;
+	volatile unsigned char *p = (volatile unsigned char *)&nand.NFCMD;
 	*p = cmd;
 }
 
 void nand_wait_idle(void)
 {
 	int i;
-	struct nand *nand = get_base_nand();
 
-	volatile unsigned char *p = (volatile unsigned char *)&nand->NFSTAT;
+	volatile unsigned char *p = (volatile unsigned char *)&nand.NFSTAT;
 
 	while (!(*p & 1))
 		for (i = 0; i < 10; i++);
@@ -35,9 +30,7 @@ void nand_wait_idle(void)
 
 void nand_deselect_chip(void)
 {
-	struct nand *nand = get_base_nand();
-
-	nand->NFCONT |= (1<<1);
+	nand.NFCONT |= (1<<1);
 }
 
 void nand_reset(void)
@@ -50,14 +43,12 @@ void nand_reset(void)
 
 void nand_init(void)
 {
-	struct nand *nand = get_base_nand();
-
 #define TACLS   0
 #define TWRPH0  3
 #define TWRPH1  0
 
-	nand->NFCONF = (TACLS<<12)|(TWRPH0<<8)|(TWRPH1<<4);
-	nand->NFCONT = (1<<4)|(1<<1)|(1<<0);
+	nand.NFCONF = (TACLS<<12)|(TWRPH0<<8)|(TWRPH1<<4);
+	nand.NFCONT = (1<<4)|(1<<1)|(1<<0);
 	
 	nand_reset();
 }
@@ -66,8 +57,7 @@ void nand_write_addr(unsigned addr)
 {
 	int i;
 	int col, row;
-	struct nand *nand = get_base_nand();
-	volatile unsigned char *p = (volatile unsigned char *)&nand->NFADDR;
+	volatile unsigned char *p = (volatile unsigned char *)&nand.NFADDR;
 
 	col = addr % 2048;
 	row = addr / 2048;
@@ -91,8 +81,7 @@ void nand_write_addr(unsigned addr)
 
 unsigned char nand_read_data(void)
 {
-	struct nand *nand = get_base_nand();
-	volatile unsigned char *p = (volatile unsigned char *)&nand->NFDATA;
+	volatile unsigned char *p = (volatile unsigned char *)&nand.NFDATA;
 
 	return *p;
 }
@@ -126,4 +115,3 @@ void copy2ram(unsigned long start, unsigned char *buf, int size)
 
 	nand_read(buf, start, (size + 2047) & ~(2047));
 }
-

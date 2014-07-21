@@ -11,7 +11,8 @@ OBJCOPY	= $(PREFIX)objcopy
 
 LDS	:= bsp/jz2440/htask.lds
 
-CPPFLAGS := -DTEXT_BASE=0x33f80000 -I$(TOPDIR)/include -I$(TOPDIR)/cpu/s3c2440 -I$(TOPDIR)/src 
+CPPFLAGS := -DTEXT_BASE=0x33f80000 -I$(TOPDIR)/include -I$(TOPDIR)/cpu/s3c2440\
+	-I$(TOPDIR)/bsp/jz2440 -I$(TOPDIR)/src
 AFLAGS := -g -O0 $(CPPFLAGS)
 CFLAGS := -g -O0
 ARFLAGS = crv

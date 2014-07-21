@@ -2,9 +2,9 @@
  * Copyright (C) 2014 Huang Bo
  */
 
-#include "lib.h"
-#include "serial.h"
 #include <stdarg.h>
+#include <serial.h>
+#include "print.h"
 
 #define isdigit(c)  ((unsigned)((c) - '0') < 10)
 

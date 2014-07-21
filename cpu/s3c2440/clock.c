@@ -1,19 +1,17 @@
 /*
  * Copyright (C) 2014 Huang Bo
  */
-#include "htask.h"
+#include "s3c2440.h"
 
 void clock_init(void)
 {
-	struct clock_power *const clk_pow = get_base_clock_power();
-
-	clk_pow->locktime = 0xffffffff;
+	clock.locktime = 0xffffffff;
 	
 	/* FCLK:HCLK:PCLK = 1:4:8 */
-	clk_pow->clkdivn = 0x5;
+	clock.clkdivn = 0x5;
 	
 	/* 12.0000MHz to 400.00MHz */
-	clk_pow->mpllcon = (0x5c << 12) | (1 << 4) | 1;
+	clock.mpllcon = (0x5c << 12) | (1 << 4) | 1;
 	
 	__asm__ __volatile__ (
 		"mrc p15, 0, r0, c1, c0, 0\n"

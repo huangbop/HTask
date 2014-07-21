@@ -2,7 +2,7 @@
 include $(TOPDIR)/config.mk
 
 lib	:= libsrc.a
-objs	:= lib.o
+objs	:= print.o
 
 all:	$(lib)
 
