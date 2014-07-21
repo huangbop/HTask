@@ -1,0 +1,193 @@
+Archive member included because of file (symbol)
+
+bsp/jz2440/libjz2440.a(main.o)
+                              cpu/s3c2440/start.o (ht_startup)
+src/libsrc.a(lib.o)           bsp/jz2440/libjz2440.a(main.o) (ht_printf)
+cpu/s3c2440/libs3c2440.a(serial.o)
+                              bsp/jz2440/libjz2440.a(main.o) (serial_init)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x00000000                . = 0x0
+                0x00000000                . = ALIGN (0x4)
+
+.text           0x33f80000     0x16a8
+ cpu/s3c2440/start.o(.text)
+ .text          0x33f80000      0x220 cpu/s3c2440/start.o
+                0x33f80000                _start
+ cpu/s3c2440/clock.o(.text)
+ .text          0x33f80220       0x70 cpu/s3c2440/clock.o
+                0x33f8023c                clock_init
+ bsp/jz2440/nand.o(.text)
+ .text          0x33f80290      0x46c bsp/jz2440/nand.o
+                0x33f802ac                nand_select_chip
+                0x33f80304                nand_write_cmd
+                0x33f80344                nand_wait_idle
+                0x33f803b0                nand_deselect_chip
+                0x33f803e4                nand_reset
+                0x33f8040c                nand_init
+                0x33f80448                nand_write_addr
+                0x33f805b4                nand_read_data
+                0x33f805f0                nand_read
+                0x33f806b0                copy2ram
+ *(.text)
+ .text          0x33f806fc      0x13c bsp/jz2440/libjz2440.a(main.o)
+                0x33f806fc                read_line
+                0x33f807fc                main_loop
+                0x33f80814                ht_startup
+ .text          0x33f80838      0xce0 src/libsrc.a(lib.o)
+                0x33f80838                divide
+                0x33f808f0                skip_atoi
+                0x33f80968                ht_strlen
+                0x33f80cbc                ht_vsnprintf
+                0x33f814cc                ht_printf
+ .text          0x33f81518      0x190 cpu/s3c2440/libs3c2440.a(serial.o)
+                0x33f81550                serial_init
+                0x33f815b8                serial_putc
+                0x33f81618                serial_puts
+                0x33f81660                serial_getc
+
+.glue_7         0x33f816a8        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x33f816a8        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x33f816a8        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x33f816a8        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x33f816a8        0x0
+ .iplt          0x00000000        0x0 cpu/s3c2440/start.o
+                0x33f816a8                . = ALIGN (0x4)
+
+.rodata         0x33f816a8       0x3c
+ *(.rodata*)
+ .rodata        0x33f816a8        0xc bsp/jz2440/libjz2440.a(main.o)
+ .rodata        0x33f816b4       0x30 src/libsrc.a(lib.o)
+
+.rel.dyn        0x33f816e4        0x0
+ .rel.iplt      0x00000000        0x0 cpu/s3c2440/start.o
+                0x33f816e4                . = ALIGN (0x4)
+
+.data           0x33f816e4        0x0
+ *(.data*)
+ .data          0x33f816e4        0x0 cpu/s3c2440/start.o
+ .data          0x33f816e4        0x0 cpu/s3c2440/clock.o
+ .data          0x33f816e4        0x0 bsp/jz2440/nand.o
+ .data          0x33f816e4        0x0 bsp/jz2440/libjz2440.a(main.o)
+ .data          0x33f816e4        0x0 src/libsrc.a(lib.o)
+ .data          0x33f816e4        0x0 cpu/s3c2440/libs3c2440.a(serial.o)
+
+.igot.plt       0x33f816e4        0x0
+ .igot.plt      0x00000000        0x0 cpu/s3c2440/start.o
+                0x33f816e4                . = ALIGN (0x4)
+
+.nobss
+ *(.nobss*)
+                0x33f816e4                . = ALIGN (0x4)
+                0x33f816e4                __bss_start = .
+
+.bss            0x33f816e4      0x480
+ *(.bss)
+ .bss           0x33f816e4        0x0 cpu/s3c2440/start.o
+ .bss           0x33f816e4        0x0 cpu/s3c2440/clock.o
+ .bss           0x33f816e4        0x0 bsp/jz2440/nand.o
+ .bss           0x33f816e4       0x80 bsp/jz2440/libjz2440.a(main.o)
+ .bss           0x33f81764      0x400 src/libsrc.a(lib.o)
+ .bss           0x33f81b64        0x0 cpu/s3c2440/libs3c2440.a(serial.o)
+                0x33f81b64                __bss_end = .
+Address of section .text set to 0x33f80000
+START GROUP
+LOAD cpu/s3c2440/libs3c2440.a
+LOAD bsp/jz2440/libjz2440.a
+LOAD src/libsrc.a
+END GROUP
+OUTPUT(htask.elf elf32-littlearm)
+
+.ARM.attributes
+                0x00000000       0x2c
+ .ARM.attributes
+                0x00000000       0x14 cpu/s3c2440/start.o
+ .ARM.attributes
+                0x00000014       0x30 cpu/s3c2440/clock.o
+ .ARM.attributes
+                0x00000044       0x30 bsp/jz2440/nand.o
+ .ARM.attributes
+                0x00000074       0x30 bsp/jz2440/libjz2440.a(main.o)
+ .ARM.attributes
+                0x000000a4       0x30 src/libsrc.a(lib.o)
+ .ARM.attributes
+                0x000000d4       0x30 cpu/s3c2440/libs3c2440.a(serial.o)
+
+.comment        0x00000000       0x30
+ .comment       0x00000000       0x30 cpu/s3c2440/clock.o
+                                 0x31 (size before relaxing)
+ .comment       0x00000000       0x31 bsp/jz2440/nand.o
+ .comment       0x00000000       0x31 bsp/jz2440/libjz2440.a(main.o)
+ .comment       0x00000000       0x31 src/libsrc.a(lib.o)
+ .comment       0x00000000       0x31 cpu/s3c2440/libs3c2440.a(serial.o)
+
+.debug_line     0x00000000      0x558
+ .debug_line    0x00000000       0x78 cpu/s3c2440/start.o
+ .debug_line    0x00000078       0x6e cpu/s3c2440/clock.o
+ .debug_line    0x000000e6      0x122 bsp/jz2440/nand.o
+ .debug_line    0x00000208       0x65 bsp/jz2440/libjz2440.a(main.o)
+ .debug_line    0x0000026d      0x254 src/libsrc.a(lib.o)
+ .debug_line    0x000004c1       0x97 cpu/s3c2440/libs3c2440.a(serial.o)
+
+.debug_info     0x00000000      0xdca
+ .debug_info    0x00000000       0x52 cpu/s3c2440/start.o
+ .debug_info    0x00000052       0xe5 cpu/s3c2440/clock.o
+ .debug_info    0x00000137      0x378 bsp/jz2440/nand.o
+ .debug_info    0x000004af       0xf6 bsp/jz2440/libjz2440.a(main.o)
+ .debug_info    0x000005a5      0x387 src/libsrc.a(lib.o)
+ .debug_info    0x0000092c      0x49e cpu/s3c2440/libs3c2440.a(serial.o)
+
+.debug_abbrev   0x00000000      0x4d2
+ .debug_abbrev  0x00000000       0x14 cpu/s3c2440/start.o
+ .debug_abbrev  0x00000014       0x95 cpu/s3c2440/clock.o
+ .debug_abbrev  0x000000a9      0x112 bsp/jz2440/nand.o
+ .debug_abbrev  0x000001bb       0xb8 bsp/jz2440/libjz2440.a(main.o)
+ .debug_abbrev  0x00000273      0x168 src/libsrc.a(lib.o)
+ .debug_abbrev  0x000003db       0xf7 cpu/s3c2440/libs3c2440.a(serial.o)
+
+.debug_aranges  0x00000000       0xc0
+ .debug_aranges
+                0x00000000       0x20 cpu/s3c2440/start.o
+ .debug_aranges
+                0x00000020       0x20 cpu/s3c2440/clock.o
+ .debug_aranges
+                0x00000040       0x20 bsp/jz2440/nand.o
+ .debug_aranges
+                0x00000060       0x20 bsp/jz2440/libjz2440.a(main.o)
+ .debug_aranges
+                0x00000080       0x20 src/libsrc.a(lib.o)
+ .debug_aranges
+                0x000000a0       0x20 cpu/s3c2440/libs3c2440.a(serial.o)
+
+.debug_str      0x00000000      0x513
+ .debug_str     0x00000000       0xb3 cpu/s3c2440/clock.o
+                                 0xcc (size before relaxing)
+ .debug_str     0x000000b3      0x155 bsp/jz2440/nand.o
+                                0x196 (size before relaxing)
+ .debug_str     0x00000208       0x32 bsp/jz2440/libjz2440.a(main.o)
+                                 0x8e (size before relaxing)
+ .debug_str     0x0000023a       0xd4 src/libsrc.a(lib.o)
+                                0x129 (size before relaxing)
+ .debug_str     0x0000030e      0x205 cpu/s3c2440/libs3c2440.a(serial.o)
+                                0x26c (size before relaxing)
+
+.debug_frame    0x00000000      0x35c
+ .debug_frame   0x00000000       0x44 cpu/s3c2440/clock.o
+ .debug_frame   0x00000044      0x140 bsp/jz2440/nand.o
+ .debug_frame   0x00000184       0x64 bsp/jz2440/libjz2440.a(main.o)
+ .debug_frame   0x000001e8       0xc4 src/libsrc.a(lib.o)
+ .debug_frame   0x000002ac       0xb0 cpu/s3c2440/libs3c2440.a(serial.o)

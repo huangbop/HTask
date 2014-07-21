@@ -40,8 +40,6 @@ void read_line()
 	}
 }
 
-static char buf[8192] = {'a', 'b',};
-
 
 void main_loop(void)
 {

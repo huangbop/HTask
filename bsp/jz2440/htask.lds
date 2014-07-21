@@ -12,9 +12,10 @@ SECTIONS
 	. = ALIGN(4);
 	.text :
 	{
-		start.o (.text*)
-		boot_init.o (.text*)
-		*(.text*)
+		cpu/s3c2440/start.o(.text)
+		cpu/s3c2440/clock.o(.text)
+		bsp/jz2440/nand.o(.text)
+		*(.text)
 	}
 
 	. = ALIGN(4);

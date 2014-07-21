@@ -8,34 +8,20 @@ SUBLEVEL = 0
 EXTRAVERSION = 
 HTASK_VERSION = $(VERSION).$(PATCHLEVEL).$(SUBLEVEL).$(EXTRAVERSION)
 
-ifeq ($(PREFIX),)
-PREFIX = arm-none-eabi-
-endif
+export TOPDIR := $(CURDIR)
 
-CC = $(PREFIX)gcc
-LD = $(PREFIX)ld
-OBJDUMP = $(PREFIX)objdump
-OBJCOPY = $(PREFIX)objcopy
-CFLAGS = -g -DTEXT_BASE=0x33f80000
-LDFLAGS = -Ttext 0x33f80000
+include $(TOPDIR)/config.mk
 
-BIN := htask.bin
-DIS := htask.dis
-ELF := htask.elf
+LIBS	:= cpu/s3c2440/libs3c2440.a bsp/jz2440/libjz2440.a src/libsrc.a
 
-LDS := htask.lds
+all:	htask.elf
 
-obj-y := start.o boot_init.o main.o serial.o lib.o
+htask.elf: 	$(LIBS)
+	$(LD) $(LDFLAGS) --start-group $(LIBS) --end-group \
+			-Map htask.map -o htask.elf
 
-all: 	$(DIS)
-
-$(DIS):	$(ELF)
-	$(OBJDUMP) -S $(ELF) > $(DIS)
-	$(OBJCOPY) -S -O binary $(ELF) $(BIN)
-
-$(ELF): $(obj-y) $(LDS)
-	arm-none-eabi-gcc -g -DTEXT_BASE=0x33f80000 -c start.S -o start.o
-	$(LD) -T $(LDS) $(LDFLAGS) $(obj-y) -o $@
+$(LIBS):
+	$(MAKE) -C $(dir $@)
 
 clean:
-	rm -rf $(obj-y) *.elf *.dis
+	find . -name *.o -o -name *~ -o -name *.elf -o -name *.bin -o -name *.a |xargs rm -f 
