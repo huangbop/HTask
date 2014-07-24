@@ -13,6 +13,7 @@ export TOPDIR := $(CURDIR)
 include $(TOPDIR)/config.mk
 
 LIBS	:= cpu/s3c2440/libs3c2440.a bsp/jz2440/libjz2440.a src/libsrc.a
+.PHONY:	$(LIBS)
 
 all:	htask.elf
 
