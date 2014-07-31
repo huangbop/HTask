@@ -31,3 +31,9 @@
 # cscope
 cscope.*
 
+# uVison
+*.uvopt
+*.plg
+*.bak
+*.dep
+
