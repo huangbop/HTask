@@ -42,14 +42,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
+          <OutputDirectory>.\build\</OutputDirectory>
           <OutputName>jz2440</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\</ListingPath>
+          <ListingPath>.\build\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -114,9 +114,9 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>1</UseSimulator>
+            <UseSimulator>0</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
+            <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
@@ -125,7 +125,7 @@
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
           </Simulator>
           <Target>
-            <UseTarget>0</UseTarget>
+            <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -135,7 +135,7 @@
             <RestoreToolbox>1</RestoreToolbox>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>0</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -149,7 +149,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver></Driver>
+            <Driver>Segger\JLTAgdi.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -158,11 +158,11 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <Capability>1</Capability>
+            <DriverSelection>4098</DriverSelection>
           </Flash1>
-          <Flash2>BIN\UL2ARM.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash2>Segger\JLTAgdi.dll</Flash2>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
         </Utilities>
         <TargetArmAds>
@@ -224,7 +224,7 @@
             <Ro3Chk>0</Ro3Chk>
             <Ir1Chk>0</Ir1Chk>
             <Ir2Chk>0</Ir2Chk>
-            <Ra1Chk>0</Ra1Chk>
+            <Ra1Chk>1</Ra1Chk>
             <Ra2Chk>0</Ra2Chk>
             <Ra3Chk>0</Ra3Chk>
             <Im1Chk>1</Im1Chk>
@@ -276,34 +276,34 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <Type>1</Type>
+                <StartAddress>0x30000000</StartAddress>
+                <Size>0x200000</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
               <OCR_RVCT4>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
               <OCR_RVCT6>
                 <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <StartAddress>0x30200000</StartAddress>
+                <Size>0x1000000</Size>
               </OCR_RVCT6>
               <OCR_RVCT7>
                 <Type>0</Type>
@@ -364,7 +364,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>1</umfTarg>
+            <umfTarg>0</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -372,10 +372,10 @@
             <useFile>0</useFile>
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x40000000</DataAddressRange>
-            <ScatterFile></ScatterFile>
+            <ScatterFile>.\jz2440.ld</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc></Misc>
+            <Misc>--entry _start</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -383,7 +383,29 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>start</GroupName>
+          <GroupName>startup</GroupName>
+          <Files>
+            <File>
+              <FileName>start_armcc.S</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\soc\s3c2440\start_armcc.S</FilePath>
+            </File>
+            <File>
+              <FileName>clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\soc\s3c2440\clock.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main</GroupName>
+          <Files>
+            <File>
+              <FileName>mainx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\mainx.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>

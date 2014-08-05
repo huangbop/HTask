@@ -27,13 +27,14 @@
 
 # temp file
 *~
+*.bak
+*#
 
 # cscope
 cscope.*
 
-# uVison
+# MDK
 *.uvopt
 *.plg
-*.bak
 *.dep
-
+build
