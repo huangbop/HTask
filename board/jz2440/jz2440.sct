@@ -1,0 +1,12 @@
+
+
+lr_sdram 0x30000000 0x1000 {
+	 er_RO 0x30000000 {
+	       start_mdk.o (init, +first)
+	       * (+ro)
+	 }
+
+	 er_rw +0 {
+	       * (+rw, +zi)
+	 }
+}
