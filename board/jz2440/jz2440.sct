@@ -1,8 +1,8 @@
 
 
-lr_sdram 0x30000000 0x1000 {
-	 er_RO 0x30000000 {
-	       start_mdk.o (init, +first)
+lr_sdram 0x30000000 0x01000000 {
+	 er_ro 0x30000000 {
+	       start_mdk.o (reset, +first)
 	       * (+ro)
 	 }
 

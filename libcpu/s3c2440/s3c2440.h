@@ -4,6 +4,18 @@
 #ifndef S3C2440_H
 #define S3C2440_H
 
+#define USR_MODE        0x10
+#define FIQ_MODE        0x11
+#define IRQ_MODE        0x12
+#define SVC_MODE        0x13
+#define ABT_MODE        0x17
+#define UND_MODE        0x1b
+#define SYS_MODE        0x1f
+#define MODE_MASK       0x1f
+#define I_BIT           0x80
+#define F_BIT           0x40
+#define NOINT           0xc0	
+
 struct clock_power {
 	volatile unsigned locktime;
 	volatile unsigned mpllcon;
@@ -106,6 +118,71 @@ struct nand {
 	volatile unsigned NFSBLK;
 	volatile unsigned NFEBLK;
 };
+
+/* PWM TIMER */
+#define TCFG0  (*(volatile unsigned *)0x51000000) /* Timer 0 configuration */
+#define TCFG1  (*(volatile unsigned *)0x51000004) /* Timer 1 configuration */
+#define TCON   (*(volatile unsigned *)0x51000008) /* Timer control */
+#define TCNTB0 (*(volatile unsigned *)0x5100000c) /* Timer count buffer 0 */
+#define TCMPB0 (*(volatile unsigned *)0x51000010) /* Timer compare buffer 0 */
+#define TCNTO0 (*(volatile unsigned *)0x51000014) /* Timer count observation 0 */
+#define TCNTB1 (*(volatile unsigned *)0x51000018) /* Timer count buffer 1 */
+#define TCMPB1 (*(volatile unsigned *)0x5100001c) /* Timer compare buffer 1 */
+#define TCNTO1 (*(volatile unsigned *)0x51000020) /* Timer count observation 1 */
+#define TCNTB2 (*(volatile unsigned *)0x51000024) /* Timer count buffer 2 */
+#define TCMPB2 (*(volatile unsigned *)0x51000028) /* Timer compare buffer 2 */
+#define TCNTO2 (*(volatile unsigned *)0x5100002c) /* Timer count observation 2 */
+#define TCNTB3 (*(volatile unsigned *)0x51000030) /* Timer count buffer 3 */
+#define TCMPB3 (*(volatile unsigned *)0x51000034) /* Timer compare buffer 3 */
+#define TCNTO3 (*(volatile unsigned *)0x51000038) /* Timer count observation 3 */
+#define TCNTB4 (*(volatile unsigned *)0x5100003c) /* Timer count buffer 4 */
+#define TCNTO4 (*(volatile unsigned *)0x51000040) /* Timer count observation 4 */
+
+// INTERRUPT
+#define SRCPND     (*(volatile unsigned *)0x4a000000) //Interrupt request status
+#define INTMOD     (*(volatile unsigned *)0x4a000004) //Interrupt mode control
+#define INTMSK     (*(volatile unsigned *)0x4a000008) //Interrupt mask control
+#define PRIORITY   (*(volatile unsigned *)0x4a00000c) //IRQ priority control
+#define INTPND     (*(volatile unsigned *)0x4a000010) //Interrupt request status
+#define INTOFFSET  (*(volatile unsigned *)0x4a000014) //Interruot request source offset
+#define SUBSRCPND  (*(volatile unsigned *)0x4a000018) //Sub source pending
+#define INTSUBMSK  (*(volatile unsigned *)0x4a00001c) //Interrupt sub mask
+
+/* PENDING BIT */
+#define INTEINT0      (0)
+#define INTEINT1      (1)
+#define INTEINT2      (2)
+#define INTEINT3      (3)
+#define INTEINT4_7    (4)
+#define INTEINT8_23   (5)
+#define INTNOTUSED6   (6)
+#define INTBAT_FLT    (7)
+#define INTTICK       (8)
+#define INTWDT        (9)
+#define INTTIMER0     (10)
+#define INTTIMER1     (11)
+#define INTTIMER2     (12)
+#define INTTIMER3     (13)
+#define INTTIMER4     (14)
+#define INTUART2      (15)
+#define INTLCD        (16)
+#define INTDMA0       (17)
+#define INTDMA1       (18)
+#define INTDMA2       (19)
+#define INTDMA3       (20)
+#define INTSDI        (21)
+#define INTSPI0       (22)
+#define INTUART1      (23)
+/* #define INTNOTUSED24  (24) */
+#define INTNIC  (24)
+#define INTUSBD       (25)
+#define INTUSBH       (26)
+#define INTIIC        (27)
+#define INTUART0      (28)
+#define INTSPI1       (29)
+#define INTRTC        (30)
+#define INTADC        (31)
+
 
 #define clock_power        (*(struct clock_power *)0x4c000000)
 #define gpio               (*(struct gpio *)0x56000000)

@@ -14,12 +14,14 @@ I_BIT		equ 	0x80
 F_BIT		equ 	0x40
 NOINT		equ 	0xc0	
 
+SVC_STACK_SIZE	equ	0x100
+USR_STACK_SIZE	equ	0x100
+IRQ_STACK_SIZE	equ	0x100
 
 	area	stack, readwrite, align=3
-svc_stack	space	4096
-stack_top
+isr_stack	space	(SVC_STACK_SIZE + USR_STACK_SIZE + IRQ_STACK_SIZE)
+isr_stack_top
 	
-
 	
 	area reset, code, readonly
 	preserve8
@@ -46,7 +48,6 @@ und_handler
 swi_handler
 pabt_handler
 dabt_handler
-irq_handler
 fiq_handler 	b 	und_handler
 
 rst_handler	
@@ -55,11 +56,38 @@ rst_handler
 	ldr	r1, =0x0
 	str	r1, [r0]
 
-	;; set svc stack
-	msr	cpsr_c, #SVC_MODE :or: NOINT
-	ldr	sp, =stack_top
+	;; set stack
+	ldr	r0, =isr_stack_top
 	
-	import 	htask_startup	
-	b	htask_startup
+	msr	cpsr_c, #IRQ_MODE :or: NOINT
+	mov	sp, r0
+	sub	r0, r0, #IRQ_STACK_SIZE
+
+	msr	cpsr_c, #USR_MODE :or: NOINT
+	mov	sp, r0
+	sub	r0, r0, #USR_STACK_SIZE
+
+	msr	cpsr_c, #SVC_MODE :or: NOINT
+	mov	sp, r0
+	sub	sl, sp, #SVC_STACK_SIZE
+
+	import 	ht_startup	
+	ldr	r0, =ht_startup
+	bx	r0
+
+irq_handler	
+	import	rt_interrupt_enter
+	import	rt_interrupt_leave
+	import	rt_hw_do_irq
+
+	stmfd	sp!, {r0-r12, lr}
+	bl	rt_interrupt_enter
+	bl	rt_hw_do_irq
+	bl	rt_interrupt_leave
+
+	ldmfd	sp!, {r0-r12, lr}
+	subs	pc, lr, #4
+
+	
 
 	end

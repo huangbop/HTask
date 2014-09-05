@@ -2,23 +2,18 @@
  * Copyright (C) 2014 Huang Bo
  */
 
-#include <s3c2440.h>
+#include "s3c2440.h"
 
-extern void clock_init(void);
-extern void led_init(void);
-extern void uart_init(void);
+extern void board_init(void);
 
-
-int htask_startup(void)
+int ht_startup(void)
 {
-	clock_init();
+	rt_hw_interrupt_init();
 
-	led_init();
+	board_init();
 	
-	uart_init();
-
-	uart_putc('a');
-	uart_putc('b');
+	rt_show_version();
+	
 
 	return 0;
 }
