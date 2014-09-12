@@ -12,23 +12,29 @@ extern void led_init(void);
 /* init timer4 for system tick */
 void timer_init(void)
 {
-	/* timer4, pre = 15+1 */
-	TCFG0 &= 0xffff00ff;
-	TCFG0 |= 15 << 8;
+	/* /\* timer4, pre = 15+1 *\/ */
+	/* TCFG0 &= 0xffff00ff; */
+	/* TCFG0 |= 15 << 8; */
 
-	/* all are interrupt mode,set Timer 4 MUX 1/4 */
-	TCFG1  &= 0xfff0ffff;
-	TCFG1  |= 0x00010000;
+	/* /\* all are interrupt mode,set Timer 4 MUX 1/4 *\/ */
+	/* TCFG1  &= 0xfff0ffff; */
+	/* TCFG1  |= 0x00010000; */
 
-	/* TCNTB4 = (rt_int32_t)(50000000 / (4 * 16 * 100)) - 1; */
-	TCNTB4 = 400;
-	/* manual update */
-	TCON = TCON & (~(0x0f<<20)) | (0x02<<20);
+	/* /\* TCNTB4 = (rt_int32_t)(50000000 / (4 * 16 * 100)) - 1; *\/ */
+	/* TCNTB4 = 400; */
+	/* /\* manual update *\/ */
+	/* TCON = TCON & (~(0x0f<<20)) | (0x02<<20); */
 
-	rt_hw_interrupt_umask(INTTIMER4);
+	/* rt_hw_interrupt_umask(INTTIMER4); */
 	
-	/* start timer4, reload */
-	TCON = TCON & (~(0x0f<<20)) | (0x05<<20);
+	/* /\* start timer4, reload *\/ */
+	/* TCON = TCON & (~(0x0f<<20)) | (0x05<<20); */
+
+	gpio.GPFCON &= ~0x33;
+	gpio.GPFCON |= 0x22;
+
+	INTMSK &= ~(1<<0 | (1<<2) | (1<<5)); 
+	
 }
 
 void board_init(void)

@@ -10,6 +10,7 @@
 
 static struct rt_device uart0;
 
+extern pclk;
 
 void uart_init(void)
 {
@@ -17,7 +18,7 @@ void uart_init(void)
 
 	uart.ulcon = 0x3;	/* 8-bits */
 	uart.ucon = 0x5;	/* DMA mode */
-	uart.ubrdiv = 26;
+	uart.ubrdiv = (int)(pclk / (115200 * 16)) - 1;
 }
 
 rt_size_t uart_read(rt_device_t dev, rt_off_t pos, void *buffer, rt_size_t size)

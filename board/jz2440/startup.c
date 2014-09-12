@@ -6,14 +6,21 @@
 
 extern void board_init(void);
 
-int ht_startup(void)
+#define GPFCON              (*(volatile unsigned long *)0x56000050)
+
+void ht_startup(void)
 {
-	rt_hw_interrupt_init();
+	/* rt_hw_interrupt_init(); */
 
-	board_init();
+	/* board_init(); */
 	
-	rt_show_version();
-	
+	/* rt_show_version(); */
 
-	return 0;
+	/* gpio.GPFCON &= ~0x33; */
+	/* gpio.GPFCON |= 0x22; */
+
+	INTMSK &= ~(1<<0 | (1<<2) | (1<<5)); 
+	 
+	while (1);
+
 }

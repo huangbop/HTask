@@ -67,7 +67,7 @@ rst_handler
 	mov	sp, r0
 	sub	r0, r0, #USR_STACK_SIZE
 
-	msr	cpsr_c, #SVC_MODE :or: NOINT
+	msr	cpsr_c, #SVC_MODE 
 	mov	sp, r0
 	sub	sl, sp, #SVC_STACK_SIZE
 
@@ -81,9 +81,9 @@ irq_handler
 	import	rt_hw_do_irq
 
 	stmfd	sp!, {r0-r12, lr}
-	bl	rt_interrupt_enter
-	bl	rt_hw_do_irq
-	bl	rt_interrupt_leave
+	;; bl	rt_interrupt_enter
+	;; bl	rt_hw_do_irq
+	;; bl	rt_interrupt_leave
 
 	ldmfd	sp!, {r0-r12, lr}
 	subs	pc, lr, #4

@@ -23,12 +23,12 @@ void rt_hw_interrupt_init(void)
 {
 	int i;
 
-	SRCPND = 0x0;
-	SUBSRCPND = 0x0;
-	INTMOD = 0x0;
-	INTMSK = 0xffffffff;
-	INTSUBMSK = 0x7fff;
-	INTPND = 0xffffffff;
+	/* SRCPND = 0x0; */
+	/* SUBSRCPND = 0x0; */
+	/* INTMOD = 0x0; */
+	/* INTMSK = 0xffffffff; */
+	/* INTSUBMSK = 0x7fff; */
+	/* INTPND = 0xffffffff; */
 
 	rt_memset(isr_table, 0, sizeof(isr_table));
 	for (i = 0; i < MAX_HANDLER_SIZE; i++) {
