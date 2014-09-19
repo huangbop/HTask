@@ -30,10 +30,10 @@ void timer_init(void)
 	/* /\* start timer4, reload *\/ */
 	/* TCON = TCON & (~(0x0f<<20)) | (0x05<<20); */
 
-	gpio.GPFCON &= ~0x33;
-	gpio.GPFCON |= 0x22;
+	/* gpio.GPFCON &= ~0x33; */
+	/* gpio.GPFCON |= 0x22; */
 
-	INTMSK &= ~(1<<0 | (1<<2) | (1<<5)); 
+	/* INTMSK &= ~(1<<0 | (1<<2) | (1<<5));  */
 	
 }
 

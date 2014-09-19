@@ -435,6 +435,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\libcpu\s3c2440\stack.c</FilePath>
             </File>
+            <File>
+              <FileName>mmu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libcpu\s3c2440\mmu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

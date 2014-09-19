@@ -10,17 +10,16 @@ extern void board_init(void);
 
 void ht_startup(void)
 {
-	/* rt_hw_interrupt_init(); */
+	rt_hw_interrupt_init();
 
-	/* board_init(); */
+	board_init();
 	
-	/* rt_show_version(); */
+	rt_show_version();
+	
+	rt_hw_mmu_init();
+	
 
-	/* gpio.GPFCON &= ~0x33; */
-	/* gpio.GPFCON |= 0x22; */
-
-	INTMSK &= ~(1<<0 | (1<<2) | (1<<5)); 
-	 
+	
 	while (1);
 
 }

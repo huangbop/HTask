@@ -15,7 +15,7 @@ F_BIT		equ 	0x40
 NOINT		equ 	0xc0	
 
 SVC_STACK_SIZE	equ	0x100
-USR_STACK_SIZE	equ	0x100
+USR_STACK_SIZE	equ	0x0
 IRQ_STACK_SIZE	equ	0x100
 
 	area	stack, readwrite, align=3
@@ -58,16 +58,16 @@ rst_handler
 
 	;; set stack
 	ldr	r0, =isr_stack_top
-	
+
+	;; msr	cpsr_c, #USR_MODE :or: NOINT
+	;; mov	sp, r0
+	;; sub	r0, r0, #USR_STACK_SIZE
+
 	msr	cpsr_c, #IRQ_MODE :or: NOINT
 	mov	sp, r0
 	sub	r0, r0, #IRQ_STACK_SIZE
 
-	msr	cpsr_c, #USR_MODE :or: NOINT
-	mov	sp, r0
-	sub	r0, r0, #USR_STACK_SIZE
-
-	msr	cpsr_c, #SVC_MODE 
+	msr	cpsr_c, #SVC_MODE
 	mov	sp, r0
 	sub	sl, sp, #SVC_STACK_SIZE
 
