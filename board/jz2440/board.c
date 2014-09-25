@@ -9,32 +9,31 @@ extern void clock_init(void);
 extern void uart_init(void);
 extern void led_init(void);
 
+void rt_timer_handler(int vector, void *param)
+{
+	rt_kprintf("tick\n");
+}
+
 /* init timer4 for system tick */
 void timer_init(void)
 {
-	/* /\* timer4, pre = 15+1 *\/ */
-	/* TCFG0 &= 0xffff00ff; */
-	/* TCFG0 |= 15 << 8; */
+	gpio.GPFDAT = 0xff; 		/* turn off leds */
 
-	/* /\* all are interrupt mode,set Timer 4 MUX 1/4 *\/ */
-	/* TCFG1  &= 0xfff0ffff; */
-	/* TCFG1  |= 0x00010000; */
-
-	/* /\* TCNTB4 = (rt_int32_t)(50000000 / (4 * 16 * 100)) - 1; *\/ */
-	/* TCNTB4 = 400; */
-	/* /\* manual update *\/ */
-	/* TCON = TCON & (~(0x0f<<20)) | (0x02<<20); */
-
-	/* rt_hw_interrupt_umask(INTTIMER4); */
 	
-	/* /\* start timer4, reload *\/ */
-	/* TCON = TCON & (~(0x0f<<20)) | (0x05<<20); */
+	gpio.GPFCON &= ~0x33;	/* key int */
+	gpio.GPFCON |= 0x22;
 
-	/* gpio.GPFCON &= ~0x33; */
-	/* gpio.GPFCON |= 0x22; */
-
-	/* INTMSK &= ~(1<<0 | (1<<2) | (1<<5));  */
 	
+	TCFG0  = 99;
+	TCFG1  = 0x03;		/* PCLK/100/16 */
+	
+	TCNTB0 = 31250 * 2;	/* one second */
+	TCON   |= (1<<1);   	/* update count buf */
+
+	rt_hw_interrupt_install(10, rt_timer_handler, RT_NULL, "tick");
+	rt_hw_interrupt_umask(10);
+
+	TCON   = 0x09;      	/* set interval mode & run */
 }
 
 void board_init(void)
@@ -44,8 +43,10 @@ void board_init(void)
 	uart_init();	
 	uart_register();
 	rt_console_set_device("uart");
-	
+
 	led_init();
 
 	timer_init();
+	
+	rt_hw_mmu_init();
 }

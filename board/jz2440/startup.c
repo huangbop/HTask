@@ -16,10 +16,6 @@ void ht_startup(void)
 	
 	rt_show_version();
 	
-	rt_hw_mmu_init();
-	
-
-	
 	while (1);
 
 }

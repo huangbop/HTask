@@ -3,6 +3,7 @@
  */
 
 #include <rtthread.h>
+#include "s3c2440.h"
 
 #define _MMUTT_STARTADDRESS	 0x31000000
 
@@ -276,8 +277,10 @@ void rt_hw_mmu_init(void)
 #endif
 	mmu_setmtt(0x30000000,0x30100000,0x30000000, RW_CB); /* self */
 		
-	mmu_setmtt(0x56000000,0x56100000,(int)0x56000000, RW_CB); /* regs */
-	mmu_setmtt(0x4a000000,0x4a100000,(int)0x4a000000, RW_CB); 
+	mmu_setmtt(0x56000000,0x56100000,(int)0x56000000, RW_CB); /* GPF */
+	mmu_setmtt(0x51000000,0x51100000,(int)0x51000000, RW_CB); /* timer */
+	mmu_setmtt(0x4a000000,0x4a100000,(int)0x4a000000, RW_CB); /* interrupt */
+	mmu_setmtt(0x50000000,0x50100000,(int)0x50000000, RW_CB); /* uart */
 
 	mmu_setmtt(0x00000000,0x00100000,(int)0x30000000, RW_CB); /* int vectors */
 
@@ -297,26 +300,5 @@ void rt_hw_mmu_init(void)
 	/* mmu_enable_alignfault(); */
 
 	mmu_enable();
-
-
-#define GPFCON              (*(volatile unsigned long *)0x56000050)
-#define GPFDAT              (*(volatile unsigned long *)0x56000054)
-#define GPFUP               (*(volatile unsigned long *)0x56000058)
-
-	GPFDAT = 0xff; 		/* turn off leds */
-	
-
-	GPFCON &= ~0x33;
-	GPFCON |= 0x22;
-	
-#define INTMSK     (*(volatile unsigned *)0x4a000008)
-	INTMSK = 0x0;
-
-	/* rt_hw_interrupt_enable(0x13); */
-
-	while (1);
-
-
-
 }
 
