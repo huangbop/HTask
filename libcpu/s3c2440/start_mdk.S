@@ -67,7 +67,7 @@ rst_handler
 	mov	sp, r0
 	sub	r0, r0, #IRQ_STACK_SIZE
 
-	msr	cpsr_c, #SVC_MODE
+	msr	cpsr_c, #SVC_MODE :or: NOINT
 	mov	sp, r0
 	sub	sl, sp, #SVC_STACK_SIZE
 
