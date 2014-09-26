@@ -10,12 +10,22 @@ extern void board_init(void);
 
 void ht_startup(void)
 {
+	
 	rt_hw_interrupt_init();
 
 	board_init();
 	
 	rt_show_version();
-	
-	while (1);
 
+	rt_system_timer_init();
+
+	rt_system_scheduler_init();
+
+	rt_application_init();
+
+	rt_thread_idle_init();
+
+	rt_system_scheduler_start();
+
+	return; 
 }

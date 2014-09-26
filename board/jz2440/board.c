@@ -9,9 +9,11 @@ extern void clock_init(void);
 extern void uart_init(void);
 extern void led_init(void);
 
-void rt_timer_handler(int vector, void *param)
+extern unsigned pclk;
+
+static void rt_timer_handler(int vector, void *param)
 {
-	rt_kprintf("tick\n");
+	rt_tick_increase();
 }
 
 /* init timer4 for system tick */
@@ -26,8 +28,8 @@ void timer_init(void)
 	
 	TCFG0  = 99;
 	TCFG1  = 0x03;		/* PCLK/100/16 */
-	
-	TCNTB0 = 31250 * 2;	/* one second */
+
+	TCNTB0 = (int)(pclk/100/16/RT_TICK_PER_SECOND) - 1;		/* one second */
 	TCON   |= (1<<1);   	/* update count buf */
 
 	rt_hw_interrupt_install(10, rt_timer_handler, RT_NULL, "tick");
