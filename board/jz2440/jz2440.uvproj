@@ -400,6 +400,11 @@
               <FileType>1</FileType>
               <FilePath>.\board.c</FilePath>
             </File>
+            <File>
+              <FileName>application.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
