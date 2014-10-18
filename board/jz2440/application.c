@@ -14,32 +14,32 @@ unsigned char thread_b_stack[1024];
 unsigned char thread_c_stack[1024];
 unsigned char thread_d_stack[1024];
 
-struct rt_mutex the_mutex;
+struct rt_semaphore the_sem;
 
 void thread_a_entry(void *param)
 {
 	while (1) {
-		rt_mutex_take(&the_mutex, RT_WAITING_FOREVER);
+		rt_sem_take(&the_sem, RT_WAITING_FOREVER);
 		rt_kprintf("It's aaa\n");
-		rt_mutex_release(&the_mutex);
+		rt_sem_release(&the_sem);
 	}
 }
 
 void thread_b_entry(void *param)
 {
 	while (1) {
-		rt_mutex_take(&the_mutex, RT_WAITING_FOREVER);
+		rt_sem_take(&the_sem, RT_WAITING_FOREVER);
 		rt_kprintf("It's bbb\n");
-		rt_mutex_release(&the_mutex);
+		rt_sem_release(&the_sem);
 	}
 }
 
 void thread_c_entry(void *param)
 {
 	while (1) {
-		rt_mutex_take(&the_mutex, RT_WAITING_FOREVER);
+		rt_sem_take(&the_sem, RT_WAITING_FOREVER);
 		rt_kprintf("It's ccc\n");
-		rt_mutex_release(&the_mutex);
+		rt_sem_release(&the_sem);
 
 	}
 }
@@ -47,9 +47,9 @@ void thread_c_entry(void *param)
 void thread_d_entry(void *param)
 {
 	while (1) {
-		rt_mutex_take(&the_mutex, RT_WAITING_FOREVER);
+		rt_sem_take(&the_sem, RT_WAITING_FOREVER);
 		rt_kprintf("It's ddd\n");
-		rt_mutex_release(&the_mutex);
+		rt_sem_release(&the_sem);
 
 	}
 }
@@ -58,7 +58,7 @@ void rt_application_init(void)
 {
 	rt_err_t res;
 
-	rt_mutex_init(&the_mutex, "the mutex", RT_IPC_FLAG_FIFO);
+	rt_sem_init(&the_sem, "the semaphore", 2, RT_IPC_FLAG_FIFO);
 	
 	res = rt_thread_init(&thread_a, "aaa", thread_a_entry, RT_NULL,
 			     &thread_a_stack[0], 1024, 10, 3);
